@@ -1,0 +1,118 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: rgb(224, 247, 250); 
+    color: rgb(51, 51, 51);
+}
+
+header {
+    background-color: rgb(0, 121, 107); /* Teal color */
+    color: rgb(255, 255, 255); /* White text */
+    text-align: center;
+    padding: 1rem;
+}
+
+main {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 2rem;
+    background-color: rgb(255, 255, 255); /* White background */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Light shadow */
+    border-radius: 10px; /* Rounded corners */
+}
+
+#login-form, #user-dashboard {
+    margin-bottom: 2rem;
+}
+
+#login-form h2, #user-dashboard h2, #feed h2 {
+    margin-bottom: 1rem;
+    color: rgb(0, 121, 107); /* Teal color for headings */
+}
+
+input, textarea, button {
+    margin: 0.5rem; 
+    padding: 0.3rem;
+    border: 1px solid rgb(204, 204, 204); /* Light grey border */
+    border-radius: 8px; /* Rounded corners */
+    color: rgb(51, 51, 51); /* Dark grey text */
+}
+
+button {
+    background-color: rgb(0, 121, 107); /* Teal background */
+    color: rgb(255, 255, 255); /* White text */
+    border: none; 
+    cursor: pointer;
+    padding: 0.5rem 1rem; /* Padding for better appearance */
+    border-radius: 8px; /* Rounded corners */
+}
+
+button:hover {
+    background-color: rgb(0, 77, 64); /* Darker teal on hover */
+}
+
+ul {
+    list-style-type: none;
+    padding-left: 0;
+}
+
+li {
+    border: 1px solid rgb(204, 204, 204); /* Light grey border */
+    padding: 1rem;
+    margin-bottom: 1rem;
+    background-color: rgb(255, 255, 255); /* White background */
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1); /* Light shadow */
+    border-radius: 8px; /* Rounded corners */
+    color: rgb(51, 51, 51); /* Dark grey text */
+}
+
+li p {
+    margin: 0;
+}
+
+.like-btn, .edit-btn, .delete-btn, .share-btn {
+    margin-right: 0.5rem;
+    background-color: rgb(0, 121, 107);
+    color: rgb(255, 255, 255);
+    border: none;
+    cursor: pointer;
+    padding: 0.3rem 0.5rem;
+    border-radius: 5px;
+}
+
+.like-btn:hover, .edit-btn:hover, .delete-btn:hover, .share-btn:hover {
+    background-color: rgb(0, 77, 64);
+}
+.view-btn {
+    margin-right: 0.5rem;
+    background-color: rgb(0, 121, 107); /* Teal background */
+    color: rgb(255, 255, 255); /* White text */
+    border: none;
+    cursor: pointer;
+    padding: 0.3rem 0.5rem;
+    border-radius: 5px;
+}
+
+.view-btn:hover {
+    background-color: rgb(0, 77, 64); /* Darker teal on hover */
+}
+#logo {
+  display: block;
+  margin: 0 auto;
+}
+
+#post-list {
+  list-style-type: none;
+  padding: 0;
+}
+
+#post-list li {
+  border: 1px solid #ddd;
+  margin: 10px 0;
+  padding: 10px;
+  position: relative;
+}
+
+button {
+  margin-right: 5px;
+}
+
