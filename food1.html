@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zomato Clone</title>
+    <link rel="stylesheet" href="food1.css">
+</head>
+<body>
+    <header>
+        <h1>Zomato Clone</h1>
+        <button onclick="locationFunction()">Location</button>
+        <button onclick="contactFunction()">Contact</button>
+    </header>
+    <main>
+        <div class="profile">
+            <h2>User Profile</h2>
+            <p>Name: <span id="userName">John Doe</span></p>
+            <p>Email: <span id="userEmail">john.doe@example.com</span></p>
+        </div>
+        <div class="delivery-method">
+            <h2>Select Delivery Method</h2>
+            <select id="deliverySelect">
+                <option value="home">Home Delivery</option>
+                <option value="pickup">Pickup</option>
+            </select>
+        </div>
+        <div class="filter-sort">
+            <button onclick="filterFunction()">Filter</button>
+            <button onclick="sortFunction('asc')">Sort By Ascending</button>
+            <button onclick="sortFunction('desc')">Sort By Descending</button>
+            <button onclick="ratingFunction()">Rating</button>
+            <button onclick="offerFunction()">Offers</button>
+        </div>
+        <div class="food-items">
+            <!-- Food items will be added here -->
+        </div>
+        <div class="cart">
+            <h2>Cart</h2>
+            <div class="cart-items">
+                <!-- Cart items will be added here -->
+            </div>
+            <div class="total-price">Total Price: $0</div>
+            <button onclick="checkoutFunction()">Checkout</button>
+        </div>
+    </main>
+    <script src="food1.js"></script>
+</body>
+</html>
