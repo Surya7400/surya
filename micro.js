@@ -25,7 +25,8 @@ postButton.addEventListener('click', () => {
     const post = {
       username: currentUser,
       content: content,
-      likes: 0 // Initialize likes count
+      likes: 0,
+      comments: [] // Initialize comments array
     };
     savePost(post);
     postContent.value = '';
@@ -47,11 +48,19 @@ function loadPosts() {
     postItem.innerHTML = `
       <p><strong>${post.username}</strong>: ${post.content}</p>
       <button class="like-btn" data-index="${index}">Like (${post.likes})</button>
-      <button class="view-btn" data-index="${index}">View</button>
-      <button class="edit-btn" data-index="${index}">Edit</button>
+      <button class="comment-btn" data-index="${index}">Comment</button>
+      <button class="emoji-btn" data-index="${index}">😊</button>
       <button class="delete-btn" data-index="${index}">Delete</button>
       <button class="share-btn" data-index="${index}">Share</button>
+      <ul class="comments-list"></ul>
     `;
+    
+    post.comments.forEach(comment => {
+      const commentItem = document.createElement('li');
+      commentItem.textContent = comment;
+      postItem.querySelector('.comments-list').appendChild(commentItem);
+    });
+
     postList.appendChild(postItem);
   });
 }
@@ -80,21 +89,25 @@ postList.addEventListener('click', (e) => {
     posts[index].likes += 1;
     localStorage.setItem('posts', JSON.stringify(posts));
     loadPosts();
-  } else if (e.target.classList.contains('edit-btn')) {
-    const newContent = prompt('Edit your post:', posts[index].content);
-    if (newContent !== null) {
-      posts[index].content = newContent;
-      localStorage.setItem('posts', JSON.stringify(posts));
-      loadPosts();
-    }
   } else if (e.target.classList.contains('delete-btn')) {
     posts.splice(index, 1);
     localStorage.setItem('posts', JSON.stringify(posts));
     loadPosts();
   } else if (e.target.classList.contains('share-btn')) {
     sharePost(posts[index].content);
-  } else if (e.target.classList.contains('view-btn')) {
-    alert(`Post Content:\n\n${posts[index].content}`);
+  } else if (e.target.classList.contains('comment-btn')) {
+    const comment = prompt('Add a comment:');
+    if (comment) {
+      posts[index].comments.push(comment);
+      localStorage.setItem('posts', JSON.stringify(posts));
+      loadPosts();
+    }
+  } else if (e.target.classList.contains('emoji-btn')) {
+    const emoji = prompt('Choose an emoji:');
+    if (emoji) {
+      // Here you can handle the emoji reactions, for simplicity we’ll just log it
+      console.log(`User reacted with: ${emoji}`);
+    }
   }
 });
 
