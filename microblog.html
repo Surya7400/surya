@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Microblogging App</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background: url('https://source.unsplash.com/1600x900/?nature,water') no-repeat center center fixed;
+            background-size: cover;
+            color: #333;
+        }
+        header {
+            background-color: rgba(0, 121, 107, 0.9);
+            color: #fff;
+            text-align: center;
+            padding: 1rem;
+            border-bottom: 2px solid rgba(255, 255, 255, 0.5);
+        }
+        main {
+            max-width: 900px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: rgba(255, 255, 255, 0.95);
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+            border-radius: 10px;
+        }
+        #login-form, #user-dashboard {
+            margin-bottom: 2rem;
+        }
+        h2 {
+            color: rgb(0, 121, 107);
+        }
+        input, textarea, button {
+            margin: 0.5rem;
+            padding: 0.5rem;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            color: #333;
+            transition: border-color 0.3s;
+        }
+        input:focus, textarea:focus {
+            border-color: rgb(0, 121, 107);
+        }
+        button {
+            background-color: rgb(0, 121, 107);
+            color: #fff;
+            border: none;
+            cursor: pointer;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            transition: background-color 0.3s, transform 0.2s;
+        }
+        button:hover {
+            background-color: rgb(0, 77, 64);
+            transform: scale(1.05);
+        }
+        .feed {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 15px;
+        }
+        .post-card {
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            transition: transform 0.2s;
+        }
+        .post-card:hover {
+            transform: scale(1.02);
+        }
+        .post-image {
+            width: 100%;
+            height: auto;
+            border-bottom: 2px solid #f0f0f0;
+        }
+        .post-content {
+            padding: 10px;
+        }
+        .post-content p {
+            margin: 0;
+            font-weight: bold;
+        }
+        .post-buttons {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px;
+        }
+        .post-buttons button {
+            background-color: transparent;
+            border: none;
+            cursor: pointer;
+            color: rgb(0, 121, 107);
+        }
+        .comments-list {
+            padding-left: 0;
+            margin-top: 10px;
+            list-style-type: none;
+        }
+        .comments-list li {
+            margin: 5px 0;
+            font-size: 14px;
+        }
+        #logo {
+            display: block;
+            margin: 0 auto;
+        }
+    </style>
+</head>
+<body>
+<header>
+    <h1>Microblogging App</h1>
+</header>
+<main>
+    <div id="login-form">
+        <h2>Login</h2>
+        <input type="text" id="username" placeholder="Username">
+        <input type="password" id="password" placeholder="Password">
+        <button id="login-btn">Login</button>
+        <div id="login-error" style="color: red; display: none;">Invalid username or password</div>
+    </div>
+    <div id="user-dashboard" style="display: none;">
+        <img src="https://w7.pngwing.com/pngs/425/256/png-transparent-guitarist-rock-music-guitar-solo-guitar-silhouette-string-instrument-concert-thumbnail.png" alt="Logo" id="logo" style="width: 100px; height: auto;">
+        <h2>Welcome, <span id="user-username"></span>!</h2>
+        <input type="text" id="new-username" placeholder="Username">
+        <button id="change-username-btn">Username</button>
+        <textarea id="post-content" placeholder="Write your post..."></textarea>
+        <input type="file" id="file-upload" accept="image/*">
+        <button id="post-btn">Post</button>
+        <button id="logout-btn" class="logout-btn">Logout</button>
+    </div>
+    <div id="feed">
+        <h2>Feed</h2>
+        <div class="feed" id="post-list"></div>
+    </div>
+</main>
+<script>
+    const loginForm = document.getElementById('login-form');
+    const usernameInput = document.getElementById('username');
+    const passwordInput = document.getElementById('password');
+    const loginButton = document.getElementById('login-btn');
+    const userDashboard = document.getElementById('user-dashboard');
+    const userUsername = document.getElementById('user-username');
+    const postContent = document.getElementById('post-content');
+    const fileUpload = document.getElementById('file-upload');
+    const postButton = document.getElementById('post-btn');
+    const logoutButton = document.getElementById('logout-btn');
+    const changeUsernameButton = document.getElementById('change-username-btn');
+    const newUsernameInput = document.getElementById('new-username');
+    const postList = document.getElementById('post-list');
+    const loginError = document.getElementById('login-error');
+    let currentUser = null;
+
+    const validCredentials = {
+        username: 'surya',
+        password: 'surya123'
+    };
+
+    loginButton.addEventListener('click', () => {
+        const username = usernameInput.value.trim();
+        const password = passwordInput.value.trim();
+        if (username === validCredentials.username && password === validCredentials.password) {
+            currentUser = username;
+            loginForm.style.display = 'none';
+            userDashboard.style.display = 'block';
+            userUsername.textContent = username;
+            loadPosts();
+        } else {
+            loginError.style.display = 'block';
+        }
+    });
+
+    logoutButton.addEventListener('click', () => {
+        currentUser = null;
+        loginForm.style.display = 'block';
+        userDashboard.style.display = 'none';
+        usernameInput.value = '';
+        passwordInput.value = '';
+        postList.innerHTML = '';
+    });
+
+    changeUsernameButton.addEventListener('click', () => {
+        const newUsername = newUsernameInput.value.trim();
+        if (newUsername) {
+            currentUser = newUsername;
+            userUsername.textContent = newUsername;
+            newUsernameInput.value = ''; // Clear the input
+        }
+    });
+
+    postButton.addEventListener('click', () => {
+        const content = postContent.value.trim();
+        const file = fileUpload.files[0];
+        if (content !== '' || file) {
+            const post = {
+                username: currentUser,
+                content: content,
+                likes: 0,
+                dislikes: 0,
+                comments: [],
+                file: file ? URL.createObjectURL(file) : null
+            };
+            savePost(post);
+            postContent.value = '';
+            fileUpload.value = ''; // Reset file input
+            loadPosts();
+        }
+    });
+
+    function savePost(post) {
+        let posts = JSON.parse(localStorage.getItem('posts')) || [];
+        posts.push(post);
+        localStorage.setItem('posts', JSON.stringify(posts));
+    }
+
+    function loadPosts() {
+        postList.innerHTML = '';
+        const posts = JSON.parse(localStorage.getItem('posts')) || [];
+        posts.forEach((post, index) => {
+            const postCard = document.createElement('div');
+            postCard.className = 'post-card';
+            postCard.innerHTML = `
+                ${post.file ? `<img src="${post.file}" class="post-image" alt="Uploaded file">` : ''}
+                <div class="post-content">
+                    <p><strong>${post.username}</strong>: ${post.content}</p>
+                </div>
+                <div class="post-buttons">
+                    <button class="like-btn" data-index="${index}">👍 ${post.likes}</button>
+                    <button class="dislike-btn" data-index="${index}">👎 ${post.dislikes}</button>
+                    <button class="reply-btn" data-index="${index}">💬 Reply</button>
+                    <button class="share-btn" data-index="${index}">🔗 Share</button>
+                    <button class="comment-btn" data-index="${index}">✍️ Comment</button>
+                    <button class="emoji-btn" data-index="${index}">😊</button>
+                    <button class="delete-btn" data-index="${index}">🗑️ Delete</button>
+                </div>
+                <ul class="comments-list"></ul>
+            `;
+
+            post.comments.forEach(comment => {
+                const commentItem = document.createElement('li');
+                commentItem.textContent = comment;
+                postCard.querySelector('.comments-list').appendChild(commentItem);
+            });
+
+            postList.appendChild(postCard);
+        });
+    }
+
+    function sharePost(content) {
+        if (navigator.share) {
+            navigator.share({
+                title: 'Check out this post',
+                text: content,
+                url: window.location.href
+            }).then(() => {
+                console.log('Thanks for sharing!');
+            }).catch((error) => {
+                console.error('Error sharing:', error);
+            });
+        } else {
+            alert('Share functionality is not supported in this browser.');
+        }
+    }
+
+    postList.addEventListener('click', (e) => {
+        const index = e.target.getAttribute('data-index');
+        let posts = JSON.parse(localStorage.getItem('posts')) || [];
+
+        if (e.target.classList.contains('like-btn')) {
+            posts[index].likes += 1;
+            localStorage.setItem('posts', JSON.stringify(posts));
+            loadPosts();
+        } else if (e.target.classList.contains('dislike-btn')) {
+            posts[index].dislikes += 1;
+            localStorage.setItem('posts', JSON.stringify(posts));
+            loadPosts();
+        } else if (e.target.classList.contains('delete-btn')) {
+            posts.splice(index, 1);
+            localStorage.setItem('posts', JSON.stringify(posts));
+            loadPosts();
+        } else if (e.target.classList.contains('share-btn')) {
+            sharePost(posts[index].content);
+        } else if (e.target.classList.contains('comment-btn')) {
+            const comment = prompt('Add a comment:');
+            if (comment) {
+                posts[index].comments.push(comment);
+                localStorage.setItem('posts', JSON.stringify(posts));
+                loadPosts();
+            }
+        } else if (e.target.classList.contains('reply-btn')) {
+            const reply = prompt('Add a reply:');
+            if (reply) {
+                posts[index].comments.push(reply);
+                localStorage.setItem('posts', JSON.stringify(posts));
+                loadPosts();
+            }
+        } else if (e.target.classList.contains('emoji-btn')) {
+            const emoji = prompt('Choose an emoji:');
+            if (emoji) {
+                console.log(`User reacted with: ${emoji}`);
+            }
+        }
+    });
+
+    if (localStorage.getItem('posts') === null) {
+        localStorage.setItem('posts', JSON.stringify([]));
+    }
+</script>
+</body>
+</html>
