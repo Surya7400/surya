@@ -10,16 +10,17 @@
             background: url('https://source.unsplash.com/1600x900/?nature,water') no-repeat center center fixed;
             background-size: cover;
             color: #333;
+            overflow-x: hidden; /* Prevent horizontal scroll */
         }
         header {
-            background-color: rgba(0, 121, 107, 0.9);
+            background: linear-gradient(to right, #f58529, #f77737, #f8b62d, #d62976, #962fbf, #4a00e0);
             color: #fff;
             text-align: center;
             padding: 1rem;
             border-bottom: 2px solid rgba(255, 255, 255, 0.5);
         }
         main {
-            max-width: 900px;
+            max-width: 600px; /* Adjusted width for a more Instagram-like feed */
             margin: 20px auto;
             padding: 20px;
             background-color: rgba(255, 255, 255, 0.95);
@@ -30,46 +31,65 @@
             margin-bottom: 2rem;
         }
         h2 {
-            color: rgb(0, 121, 107);
+            color: #d62976; /* Instagram pink */
+            margin-bottom: 10px;
         }
         input, textarea, button {
-            margin: 0.5rem;
-            padding: 0.5rem;
+            margin: 0.5rem 0;
+            padding: 0.75rem;
             border: 1px solid #ccc;
             border-radius: 8px;
             color: #333;
+            width: calc(100% - 1.5rem);
             transition: border-color 0.3s;
         }
         input:focus, textarea:focus {
-            border-color: rgb(0, 121, 107);
+            border-color: #d62976; /* Focus color */
         }
         button {
-            background-color: rgb(0, 121, 107);
+            background-color: #d62976; /* Instagram pink */
             color: #fff;
             border: none;
             cursor: pointer;
-            padding: 0.5rem 1rem;
+            padding: 0.75rem;
             border-radius: 8px;
             transition: background-color 0.3s, transform 0.2s;
+            width: auto;
         }
         button:hover {
-            background-color: rgb(0, 77, 64);
+            background-color: #c8237a; /* Darker pink on hover */
             transform: scale(1.05);
         }
         .feed {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-            gap: 15px;
+            display: block; /* Changed to block for vertical stacking */
+            margin: 10px 0; /* Space between posts */
         }
         .post-card {
             background-color: #fff;
             border-radius: 10px;
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
             overflow: hidden;
+            margin-bottom: 15px; /* Space between each post */
             transition: transform 0.2s;
+            padding: 10px; /* Padding inside each post */
+            opacity: 0; /* Start hidden for animation */
+            animation: fadeIn 0.5s forwards; /* Animation */
         }
-        .post-card:hover {
-            transform: scale(1.02);
+        .post-card:nth-child(odd) {
+            animation-delay: 0.1s; /* Stagger animation */
+        }
+        .post-card:nth-child(even) {
+            animation-delay: 0.2s; /* Stagger animation */
+        }
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px); /* Start slightly below */
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0); /* End at original position */
+            }
         }
         .post-image {
             width: 100%;
@@ -82,17 +102,18 @@
         .post-content p {
             margin: 0;
             font-weight: bold;
+            color: #333; /* Text color */
         }
         .post-buttons {
             display: flex;
             justify-content: space-between;
-            padding: 10px;
+            padding: 10px 0;
         }
         .post-buttons button {
             background-color: transparent;
             border: none;
             cursor: pointer;
-            color: rgb(0, 121, 107);
+            color: #d62976; /* Instagram pink */
         }
         .comments-list {
             padding-left: 0;
@@ -102,10 +123,11 @@
         .comments-list li {
             margin: 5px 0;
             font-size: 14px;
+            color: #333; /* Comment text color */
         }
         #logo {
             display: block;
-            margin: 0 auto;
+            margin: 0 auto 10px;
         }
     </style>
 </head>
@@ -248,19 +270,25 @@
         });
     }
 
-    function sharePost(content) {
+    function sharePost(post) {
+        const shareData = {
+            title: 'Check out this post',
+            text: `${post.username}: ${post.content}`,
+            url: window.location.href
+        };
+
         if (navigator.share) {
-            navigator.share({
-                title: 'Check out this post',
-                text: content,
-                url: window.location.href
-            }).then(() => {
-                console.log('Thanks for sharing!');
-            }).catch((error) => {
-                console.error('Error sharing:', error);
-            });
+            navigator.share(shareData)
+                .then(() => {
+                    console.log('Thanks for sharing!');
+                })
+                .catch((error) => {
+                    console.error('Error sharing:', error);
+                    alert('Sharing failed. You can copy this text:\n' + shareData.text);
+                });
         } else {
-            alert('Share functionality is not supported in this browser.');
+            // Fallback if share is not supported
+            alert('Sharing is not supported in this browser. Copy this text:\n' + shareData.text);
         }
     }
 
@@ -281,7 +309,7 @@
             localStorage.setItem('posts', JSON.stringify(posts));
             loadPosts();
         } else if (e.target.classList.contains('share-btn')) {
-            sharePost(posts[index].content);
+            sharePost(posts[index]); // Pass the whole post object
         } else if (e.target.classList.contains('comment-btn')) {
             const comment = prompt('Add a comment:');
             if (comment) {
