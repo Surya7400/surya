@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Food Delivery App</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f9f9f9; /* Light background */
+        }
+
+        header {
+            background-color: #ff6f00; /* Swiggy primary color */
+            color: white;
+            text-align: center;
+            padding: 10px;
+            position: relative;
+        }
+
+        #header-buttons {
+            position: absolute;
+            right: 10px;
+            top: 10px;
+            display: flex;
+            gap: 10px;
+        }
+
+        main {
+            max-width: 800px;
+            margin: 0 auto; 
+            padding: 2rem;
+        }
+
+        #login, #restaurant-list, #menu, #order-confirmation {
+            margin-bottom: 2rem;
+            transition: opacity 0.3s ease;
+        }
+
+        h2 {
+            margin-bottom: 1rem;
+        }
+
+        ul {
+            list-style-type: none;
+            padding-left: 0;
+        }
+
+        li {
+            border: 1px solid #ddd;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        li:hover {
+            transform: scale(1.02); /* Scale effect on hover */
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Add shadow on hover */
+        }
+
+        button {
+            background-color: #ff6f00; /* Swiggy primary color */
+            color: #fff;
+            border: none;
+            padding: 0.5rem 1rem;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            border-radius: 4px;
+        }
+
+        button:hover {
+            background-color: #e65c00; /* Darker shade on hover */
+        }
+
+        .food-items, .cart-items {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+        }
+
+        .food-item, .cart-item {
+            border: 1px solid #ccc;
+            margin: 10px;
+            padding: 10px;
+            background-color: white;
+            width: 200px;
+            text-align: center;
+            transition: transform 0.2s;
+            border-radius: 5px;
+        }
+
+        .food-item:hover, .cart-item:hover {
+            transform: scale(1.02); /* Scale effect on hover */
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Add shadow on hover */
+        }
+
+        .cart {
+            margin: 20px;
+            padding: 10px;
+            background-color: white;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+
+        img {
+            width: 100%;
+            height: 150px;
+            object-fit: cover;
+            border-radius: 5px;
+        }
+
+        .restaurant-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .location-btn {
+            background-color: #28a745; /* Location button color */
+        }
+
+        .location-btn:hover {
+            background-color: #218838; /* Darker shade on hover */
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Food Delivery</h1>
+        <div id="header-buttons">
+            <button id="location-btn" class="location-btn">Location</button>
+            <button id="logout-btn" style="display: none;">Logout</button>
+        </div>
+    </header>
+    <main>
+        <div id="login">
+            <h2>Login</h2>
+            <input type="text" id="username" placeholder="Username" required>
+            <input type="password" id="password" placeholder="Password" required>
+            <button id="login-btn">Login</button>
+            <p id="login-message" style="color: red;"></p>
+        </div>
+        <div id="restaurant-list" style="display: none;">
+            <h2>Choose a Restaurant</h2>
+            <ul id="restaurants"></ul>
+            <button id="back-to-login" style="display: none;">Back</button>
+        </div>
+        <div id="menu" style="display: none;">
+            <h2 id="restaurant-name"></h2>
+            <ul id="items" class="food-items"></ul>
+            <button id="order-btn">Place Order</button>
+            <button id="back-to-restaurant" style="display: none;">Back</button>
+        </div>
+        <div id="order-confirmation" style="display: none;">
+            <h2>Order Confirmation</h2>
+            <p id="order-summary"></p>
+        </div>
+        <div class="cart">
+            <h2>Cart</h2>
+            <div class="cart-items"></div>
+            <div class="total-price">Total Price: $0</div>
+            <button onclick="checkoutFunction()">Checkout</button>
+            <button onclick="cancelCart()">Cancel Cart</button>
+        </div>
+    </main>
+    <script>
+        const restaurantList = document.getElementById('restaurant-list');
+        const restaurants = document.getElementById('restaurants'); 
+        const menu = document.getElementById('menu');
+        const restaurantName = document.getElementById('restaurant-name');
+        const itemsList = document.getElementById('items');
+        const orderButton = document.getElementById('order-btn');
+        const orderConfirmation = document.getElementById('order-confirmation');
+        const orderSummary = document.getElementById('order-summary');
+        const cartContainer = document.querySelector('.cart-items');
+        const totalPriceContainer = document.querySelector('.total-price');
+        const loginMessage = document.getElementById('login-message');
+        const logoutButton = document.getElementById('logout-btn');
+        const locationButton = document.getElementById('location-btn');
+        const backToLoginButton = document.getElementById('back-to-login');
+        const backToRestaurantButton = document.getElementById('back-to-restaurant');
+
+        const restaurantsData = [
+            {
+                name: 'Restaurant A',
+                location: '123 Main St',
+                rating: 4.5,
+                menu: [
+                    { id: 1, name: 'Pizza', price: 30, rating: 4.7, image: 'https://img.freepik.com/free-photo/delicious-pizza-studio_23-2151846554.jpg' },
+                    { id: 2, name: 'Burger', price: 35, rating: 4.5, image: 'https://img.freepik.com/free-photo/big-sandwich-hamburger-burger-with-beef-red-onion-tomato-fried-bacon_2829-5398.jpg' },
+                    { id: 3, name: 'Pasta', price: 39, rating: 4.3, image: 'https://img.freepik.com/free-photo/penne-pasta-tomato-sauce-with-chicken-tomatoes-wooden-table_2829-19744.jpg' },
+                    { id: 4, name: 'Salad', price: 59, rating: 4.6, image: 'https://img.freepik.com/free-photo/top-view-tasty-salad-with-vegetables_23-2148515491.jpg' },
+                    { id: 5, name: 'Fries', price: 30, rating: 4.2, image: 'https://img.freepik.com/free-photo/crispy-french-fries-with-ketchup-mayonnaise_1150-26588.jpg' }
+                ]
+            },
+            {
+                name: 'Restaurant B',
+                location: '456 Elm St',
+                rating: 4.0,
+                menu: [
+                    { id: 6, name: 'Sushi', price: 50, rating: 4.8, image: 'https://img.freepik.com/free-photo/maki-sushi-isolated-white_2829-7304.jpg' },
+                    { id: 7, name: 'Tacos', price: 79, rating: 4.4, image: 'https://img.freepik.com/free-photo/mexican-tacos-with-chicken-bell-peppers-black-beans-fresh-vegetables_2829-20049.jpg' },
+                    { id: 8, name: 'Steak', price: 20, rating: 4.5, image: 'https://img.freepik.com/free-photo/juicy-steak-medium-rare-beef-with-spices-grilled-vegetables_2829-18665.jpg' },
+                    { id: 9, name: 'Ice Cream', price: 55, rating: 4.9, image: 'https://img.freepik.com/free-photo/coold-sweet-ice-cream-with-chocolate_144627-7297.jpg' },
+                    { id: 10, name: 'Sandwich', price: 60, rating: 4.3, image: 'https://img.freepik.com/free-photo/grilled-sandwich-with-bacon-fried-egg-tomato-lettuce-served-wooden-cutting-board_1150-42571.jpg' }
+                ]
+            }
+        ];
+
+        let totalPrice = 0;
+
+        const validCredentials = {
+            username: 'user',
+            password: 'pass'
+        };
+
+        document.getElementById('login-btn').addEventListener('click', () => {
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+
+            if (username === validCredentials.username && password === validCredentials.password) {
+                loginMessage.textContent = '';
+                document.getElementById('login').style.display = 'none';
+                restaurantList.style.display = 'block';
+                displayRestaurants();
+                logoutButton.style.display = 'inline-block';
+            } else {
+                loginMessage.textContent = 'Invalid username or password.';
+            }
+        });
+
+        logoutButton.addEventListener('click', () => {
+            document.getElementById('login').style.display = 'block';
+            restaurantList.style.display = 'none';
+            menu.style.display = 'none';
+            orderConfirmation.style.display = 'none';
+            cartContainer.innerHTML = '';
+            totalPrice = 0;
+            updateTotalPrice();
+            logoutButton.style.display = 'none';
+        });
+
+        function displayRestaurants() {
+            restaurants.innerHTML = '';
+            restaurantsData.forEach((restaurant, index) => {
+                const restaurantItem = document.createElement('li');
+                restaurantItem.innerHTML = `
+                    <div class="restaurant-info">
+                        <span>${restaurant.name}</span>
+                        <span>${restaurant.rating} ⭐</span>
+                    </div>
+                    <p>${restaurant.location}</p>
+                `;
+                restaurantItem.addEventListener('click', () => {
+                    showMenu(index);
+                });
+                restaurants.appendChild(restaurantItem);
+            });
+        }
+
+        function showMenu(index) {
+            restaurantList.style.display = 'none'; 
+            menu.style.display = 'block';
+            const selectedRestaurant = restaurantsData[index]; 
+            restaurantName.textContent = selectedRestaurant.name;
+            itemsList.innerHTML = ''; 
+            selectedRestaurant.menu.forEach(item => {
+                const menuItem = document.createElement('li');
+                menuItem.classList.add('food-item');
+                menuItem.innerHTML = `
+                    <img src="${item.image}" alt="${item.name}">
+                    <h3>${item.name} <span style="font-size: 0.8em;">(${item.rating} ⭐)</span></h3>
+                    <p>Price: $${item.price}</p>
+                    <button onclick="addToCart(${item.id})">Add to Cart</button>
+                `;
+                itemsList.appendChild(menuItem);
+            });
+            backToRestaurantButton.style.display = 'inline-block';
+        }
+
+        backToRestaurantButton.addEventListener('click', () => {
+            menu.style.display = 'none';
+            restaurantList.style.display = 'block';
+            backToRestaurantButton.style.display = 'none';
+        });
+
+        orderButton.addEventListener('click', () => {
+            const selectedRestaurant = restaurantName.textContent;
+            showOrderConfirmation(selectedRestaurant);
+        });
+
+        function addToCart(id) {
+            const selectedRestaurant = restaurantName.textContent;
+            const item = restaurantsData.find(restaurant => restaurant.name === selectedRestaurant)
+                           .menu.find(menuItem => menuItem.id === id);
+            
+            totalPrice += item.price;
+
+            const cartDiv = document.createElement('div');
+            cartDiv.classList.add('cart-item');
+            cartDiv.innerHTML = `
+                <h3>${item.name} <span style="font-size: 0.8em;">(${item.rating} ⭐)</span></h3>
+                <p>Price: $${item.price}</p>
+            `;
+            cartContainer.appendChild(cartDiv);
+            updateTotalPrice();
+        }
+
+        function updateTotalPrice() {
+            totalPriceContainer.innerHTML = `Total Price: $${totalPrice}`;
+        }
+
+        function showOrderConfirmation(restaurantName) {
+            menu.style.display = 'none'; 
+            orderConfirmation.style.display = 'block';
+            orderSummary.textContent = `Your order from ${restaurantName} has been placed!`;
+        }
+
+        function checkoutFunction() {
+            alert('Checkout button clicked. Thank you for your order!');
+        }
+
+        function cancelCart() {
+            cartContainer.innerHTML = '';
+            totalPrice = 0;
+            updateTotalPrice();
+        }
+    </script>
+</body>
+</html>
