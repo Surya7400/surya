@@ -9,11 +9,11 @@
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
-            background-color: #f9f9f9; /* Light background */
+            background-color: #f9f9f9;
         }
 
         header {
-            background-color: #ff6f00; /* Swiggy primary color */
+            background-color: #ff6f00;
             color: white;
             text-align: center;
             padding: 10px;
@@ -26,6 +26,25 @@
             top: 10px;
             display: flex;
             gap: 10px;
+        }
+
+        .scrolling-message {
+            background-color: #ffc107;
+            padding: 5px;
+            color: #000;
+            white-space: nowrap;
+            overflow: hidden;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            animation: scroll 10s linear infinite;
+        }
+
+        @keyframes scroll {
+            from {
+                transform: translateX(100%);
+            }
+            to {
+                transform: translateX(-100%);
+            }
         }
 
         main {
@@ -57,12 +76,12 @@
         }
 
         li:hover {
-            transform: scale(1.02); /* Scale effect on hover */
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Add shadow on hover */
+            transform: scale(1.02);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
         }
 
         button {
-            background-color: #ff6f00; /* Swiggy primary color */
+            background-color: #ff6f00;
             color: #fff;
             border: none;
             padding: 0.5rem 1rem;
@@ -72,7 +91,7 @@
         }
 
         button:hover {
-            background-color: #e65c00; /* Darker shade on hover */
+            background-color: #e65c00;
         }
 
         .food-items, .cart-items {
@@ -93,8 +112,8 @@
         }
 
         .food-item:hover, .cart-item:hover {
-            transform: scale(1.02); /* Scale effect on hover */
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Add shadow on hover */
+            transform: scale(1.02);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
         }
 
         .cart {
@@ -118,12 +137,24 @@
             align-items: center;
         }
 
-        .location-btn {
-            background-color: #28a745; /* Location button color */
+        .location-btn, .contact-btn {
+            background-color: #28a745;
         }
 
-        .location-btn:hover {
-            background-color: #218838; /* Darker shade on hover */
+        .location-btn:hover, .contact-btn:hover {
+            background-color: #218838;
+        }
+
+        .filter {
+            margin: 10px 0;
+        }
+
+        .offers {
+            margin: 10px 0;
+            padding: 10px;
+            background-color: #f0f8ff; /* Light background for offers */
+            border: 1px solid #ddd;
+            border-radius: 5px;
         }
     </style>
 </head>
@@ -132,9 +163,13 @@
         <h1>Food Delivery</h1>
         <div id="header-buttons">
             <button id="location-btn" class="location-btn">Location</button>
+            <button id="contact-btn" class="contact-btn">Contact</button>
             <button id="logout-btn" style="display: none;">Logout</button>
         </div>
     </header>
+    <div class="scrolling-message">
+        First-time order? Buy One Get One Free on your first purchase!
+    </div>
     <main>
         <div id="login">
             <h2>Login</h2>
@@ -150,6 +185,17 @@
         </div>
         <div id="menu" style="display: none;">
             <h2 id="restaurant-name"></h2>
+            <div class="filter">
+                <label for="delivery-method">Delivery Method:</label>
+                <select id="delivery-method">
+                    <option value="standard">Standard</option>
+                    <option value="express">Express</option>
+                </select>
+            </div>
+            <div class="offers">
+                <h3>Special Offers</h3>
+                <p>Get 20% off on orders above $50!</p>
+            </div>
             <ul id="items" class="food-items"></ul>
             <button id="order-btn">Place Order</button>
             <button id="back-to-restaurant" style="display: none;">Back</button>
@@ -180,6 +226,7 @@
         const loginMessage = document.getElementById('login-message');
         const logoutButton = document.getElementById('logout-btn');
         const locationButton = document.getElementById('location-btn');
+        const contactButton = document.getElementById('contact-btn');
         const backToLoginButton = document.getElementById('back-to-login');
         const backToRestaurantButton = document.getElementById('back-to-restaurant');
 
@@ -199,18 +246,18 @@
             {
                 name: 'Restaurant B',
                 location: '456 Elm St',
-                rating: 4.0,
+                rating: 4.8,
                 menu: [
-                    { id: 6, name: 'Sushi', price: 50, rating: 4.8, image: 'https://img.freepik.com/free-photo/maki-sushi-isolated-white_2829-7304.jpg' },
+                    { id: 6, name: 'Sushi', price: 50, rating: 4.9, image: 'https://img.freepik.com/free-photo/maki-sushi-isolated-white_2829-7304.jpg' },
                     { id: 7, name: 'Tacos', price: 79, rating: 4.4, image: 'https://img.freepik.com/free-photo/mexican-tacos-with-chicken-bell-peppers-black-beans-fresh-vegetables_2829-20049.jpg' },
-                    { id: 8, name: 'Steak', price: 20, rating: 4.5, image: 'https://img.freepik.com/free-photo/juicy-steak-medium-rare-beef-with-spices-grilled-vegetables_2829-18665.jpg' },
+                    { id: 8, name: 'Steak', price: 20, rating: 4.1, image: 'https://img.freepik.com/free-photo/juicy-steak-medium-rare-beef-with-spices-grilled-vegetables_2829-18665.jpg' },
                     { id: 9, name: 'Ice Cream', price: 55, rating: 4.9, image: 'https://img.freepik.com/free-photo/coold-sweet-ice-cream-with-chocolate_144627-7297.jpg' },
                     { id: 10, name: 'Sandwich', price: 60, rating: 4.3, image: 'https://img.freepik.com/free-photo/grilled-sandwich-with-bacon-fried-egg-tomato-lettuce-served-wooden-cutting-board_1150-42571.jpg' }
                 ]
             }
         ];
 
-        let totalPrice = 0;
+        let totalPrice = 0; 
 
         const validCredentials = {
             username: 'user',
@@ -241,6 +288,19 @@
             totalPrice = 0;
             updateTotalPrice();
             logoutButton.style.display = 'none';
+        });
+
+        backToLoginButton.addEventListener('click', () => {
+            restaurantList.style.display = 'none';
+            document.getElementById('login').style.display = 'block';
+        });
+
+        locationButton.addEventListener('click', () => {
+            alert('Location button clicked!'); // Placeholder for location functionality
+        });
+
+        contactButton.addEventListener('click', () => {
+            alert('Contact button clicked!'); // Placeholder for contact functionality
         });
 
         function displayRestaurants() {
@@ -282,7 +342,7 @@
         }
 
         backToRestaurantButton.addEventListener('click', () => {
-            menu.style.display = 'none';
+            menu.style.display = 'none'; 
             restaurantList.style.display = 'block';
             backToRestaurantButton.style.display = 'none';
         });
