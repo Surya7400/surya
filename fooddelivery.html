@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Food Delivery App</title>
+    <title>Food Delivery Website</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -11,7 +11,6 @@
             padding: 0;
             background-color: #f9f9f9;
         }
-
         header {
             background-color: #ff6f00;
             color: white;
@@ -19,7 +18,6 @@
             padding: 10px;
             position: relative;
         }
-
         #header-buttons {
             position: absolute;
             right: 10px;
@@ -27,7 +25,6 @@
             display: flex;
             gap: 10px;
         }
-
         .scrolling-message {
             background-color: #0000;
             padding: 5px;
@@ -37,7 +34,6 @@
             box-shadow: 0 0px 0px rgba(0, 0, 0, 0.1);
             animation: scroll 15s linear infinite;
         }
-
         @keyframes scroll {
             from {
                 transform: translateX(100%);
@@ -46,27 +42,22 @@
                 transform: translateX(-100%);
             }
         }
-
         main {
             max-width: 800px;
             margin: 0 auto; 
             padding: 2rem;
         }
-
         #login, #restaurant-list, #menu, #order-confirmation {
             margin-bottom: 2rem;
             transition: opacity 0.3s ease;
         }
-
         h2 {
             margin-bottom: 1rem;
         }
-
         ul {
             list-style-type: none;
             padding-left: 0;
         }
-
         li {
             border: 1px solid #ddd;
             padding: 1rem;
@@ -74,12 +65,10 @@
             cursor: pointer;
             transition: transform 0.2s, box-shadow 0.2s;
         }
-
         li:hover {
             transform: scale(1.02);
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
         }
-
         button {
             background-color: #ff6f00;
             color: #fff;
@@ -89,18 +78,15 @@
             transition: background-color 0.3s;
             border-radius: 4px;
         }
-
         button:hover {
             background-color: #e65c00;
         }
-
-        .food-items, .cart-items {
+        .food-items {
             display: flex;
             flex-wrap: wrap;
             justify-content: space-around;
         }
-
-        .food-item, .cart-item {
+        .food-item {
             border: 1px solid #ccc;
             margin: 10px;
             padding: 10px;
@@ -110,12 +96,23 @@
             transition: transform 0.2s;
             border-radius: 5px;
         }
-
-        .food-item:hover, .cart-item:hover {
+        .food-item:hover {
             transform: scale(1.02);
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
         }
-
+        img {
+            width: 100%;
+            height: 150px;
+            object-fit: cover;
+            border-radius: 5px;
+        }
+        .offers {
+            margin: 10px 0;
+            padding: 10px;
+            background-color: #f0f8ff;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
         .cart {
             margin: 20px;
             padding: 10px;
@@ -123,47 +120,35 @@
             border: 1px solid #ddd;
             border-radius: 5px;
         }
-
-        img {
-            width: 100%;
-            height: 150px;
-            object-fit: cover;
-            border-radius: 5px;
+        .total-price {
+            font-weight: bold;
         }
-
-        .restaurant-info {
+        .cart-btn {
+            font-size: 1.2rem;
             display: flex;
-            justify-content: space-between;
             align-items: center;
+            background: none;
+            color: white;
+            border: none;
+            cursor: pointer;
         }
-
-        .location-btn, .contact-btn {
-            background-color: #28a745;
-        }
-
-        .location-btn:hover, .contact-btn:hover {
-            background-color: #218838;
-        }
-
-        .filter {
-            margin: 10px 0;
-        }
-
-        .offers {
-            margin: 10px 0;
-            padding: 10px;
-            background-color: #f0f8ff; /* Light background for offers */
-            border: 1px solid #ddd;
-            border-radius: 5px;
+        #cart-count {
+            margin-left: 5px;
+            background: red;
+            color: white;
+            border-radius: 50%;
+            padding: 2px 6px;
+            font-size: 0.8rem;
         }
     </style>
 </head>
 <body>
     <header>
-        <h1>Food Delivery</h1>
+        <h1>Food Delivery Website</h1>
         <div id="header-buttons">
             <button id="location-btn" class="location-btn">Location</button>
             <button id="contact-btn" class="contact-btn">Contact</button>
+            <button id="cart-btn" class="cart-btn" style="display: none;">🛒 <span id="cart-count">0</span></button>
             <button id="logout-btn" style="display: none;">Logout</button>
         </div>
     </header>
@@ -173,8 +158,8 @@
     <main>
         <div id="login">
             <h2>Login</h2>
-            <input type="text" id="username" placeholder="Username" required>
-            <input type="password" id="password" placeholder="Password" required>
+            <input type="text" id="username" placeholder="Username" required><br><br>
+            <input type="password" id="password" placeholder="Password" required><br><br>
             <button id="login-btn">Login</button>
             <p id="login-message" style="color: red;"></p>
         </div>
@@ -185,13 +170,6 @@
         </div>
         <div id="menu" style="display: none;">
             <h2 id="restaurant-name"></h2>
-            <div class="filter">
-                <label for="delivery-method">Delivery Method:</label>
-                <select id="delivery-method">
-                    <option value="standard">Standard</option>
-                    <option value="express">Express</option>
-                </select>
-            </div>
             <div class="offers">
                 <h3>Special Offers</h3>
                 <p>Get 20% off on orders above $50!</p>
@@ -203,8 +181,9 @@
         <div id="order-confirmation" style="display: none;">
             <h2>Order Confirmation</h2>
             <p id="order-summary"></p>
+            <p id="order-time" style="font-style: italic;"></p>
         </div>
-        <div class="cart">
+        <div class="cart" style="display: none;">
             <h2>Cart</h2>
             <div class="cart-items"></div>
             <div class="total-price">Total Price: $0</div>
@@ -240,7 +219,19 @@
                     { id: 2, name: 'Burger', price: 35, rating: 4.5, image: 'https://img.freepik.com/free-photo/big-sandwich-hamburger-burger-with-beef-red-onion-tomato-fried-bacon_2829-5398.jpg' },
                     { id: 3, name: 'Pasta', price: 39, rating: 4.3, image: 'https://img.freepik.com/free-photo/penne-pasta-tomato-sauce-with-chicken-tomatoes-wooden-table_2829-19744.jpg' },
                     { id: 4, name: 'Salad', price: 59, rating: 4.6, image: 'https://img.freepik.com/free-photo/top-view-tasty-salad-with-vegetables_23-2148515491.jpg' },
-                    { id: 5, name: 'Fries', price: 30, rating: 4.2, image: 'https://img.freepik.com/free-photo/crispy-french-fries-with-ketchup-mayonnaise_1150-26588.jpg' }
+                    { id: 5, name: 'Fries', price: 30, rating: 4.2, image: 'https://img.freepik.com/free-photo/crispy-french-fries-with-ketchup-mayonnaise_1150-26588.jpg' },
+                    { id: 6, name: 'coffee', price: 5, rating: 4.0, image: 'https://img.freepik.com/free-photo/soda-can-isolated-white_1150-12750.jpg' },
+                    { id: 7, name: 'Garlic Bread', price: 10, rating: 4.4, image: 'https://ichef.bbci.co.uk/food/ic/food_16x9_1600/recipes/classic_garlic_bread_84954_16x9.jpg' },
+                    { id: 8, name: 'Tiramisu', price: 12, rating: 4.9, image: 'https://ichef.bbci.co.uk/food/ic/food_16x9_320/recipes/tiramisu_cake_13686_16x9.jpg' },
+                    { id: 9, name: 'Cheesecake', price: 15, rating: 4.8, image: 'https://ichef.bbci.co.uk/food/ic/food_16x9_320/recipes/chocolate_peanut_butter_74370_16x9.jpg' },
+                    { id: 10, name: 'Ice Tea', price: 4, rating: 4.5, image: 'https://ichef.bbci.co.uk/food/ic/food_16x9_320/recipes/bubble_tea_74016_16x9.jpg' },
+                    { id: 11, name: 'Hot Wings', price: 20, rating: 4.5, image: 'https://ichef.bbci.co.uk/food/ic/food_16x9_320/recipes/barbecue_chicken_wings_68188_16x9.jpg' },
+                    { id: 12, name: 'Nachos', price: 15, rating: 4.4, image: 'https://ichef.bbci.co.uk/food/ic/food_16x9_320/recipes/nachos_92445_16x9.jpg' },
+                    { id: 13, name: 'Quesadilla', price: 18, rating: 4.3, image: 'https://ichef.bbci.co.uk/food/ic/food_16x9_320/recipes/chorizoandbeanquesad_76375_16x9.jpg' },
+                    { id: 14, name: 'Soup', price: 9, rating: 4.2, image: 'https://ichef.bbci.co.uk/food/ic/food_16x9_320/recipes/creamytomatosoup_67508_16x9.jpg' },
+                    { id: 15, name: 'Cupcake', price: 3, rating: 4.6, image: 'https://ichef.bbci.co.uk/food/ic/food_16x9_320/recipes/pudsey_bear_cupcakes_91262_16x9.jpg' },
+                    { id: 16, name: 'Brownie', price: 6, rating: 4.7, image: 'https://ichef.bbci.co.uk/food/ic/food_16x9_320/recipes/chocolate_brownie_64092_16x9.jpg' },
+                    
                 ]
             },
             {
@@ -248,17 +239,28 @@
                 location: '456 Elm St',
                 rating: 4.8,
                 menu: [
-                    { id: 6, name: 'Sushi', price: 50, rating: 4.9, image: 'https://img.freepik.com/free-photo/maki-sushi-isolated-white_2829-7304.jpg' },
-                    { id: 7, name: 'Tacos', price: 79, rating: 4.4, image: 'https://img.freepik.com/free-photo/mexican-tacos-with-chicken-bell-peppers-black-beans-fresh-vegetables_2829-20049.jpg' },
-                    { id: 8, name: 'Steak', price: 20, rating: 4.1, image: 'https://img.freepik.com/free-photo/juicy-steak-medium-rare-beef-with-spices-grilled-vegetables_2829-18665.jpg' },
-                    { id: 9, name: 'Ice Cream', price: 55, rating: 4.9, image: 'https://img.freepik.com/free-photo/coold-sweet-ice-cream-with-chocolate_144627-7297.jpg' },
-                    { id: 10, name: 'Sandwich', price: 60, rating: 4.3, image: 'https://img.freepik.com/free-photo/grilled-sandwich-with-bacon-fried-egg-tomato-lettuce-served-wooden-cutting-board_1150-42571.jpg' }
+                    { id: 21, name: 'Sushi', price: 50, rating: 4.9, image: 'https://img.freepik.com/free-photo/maki-sushi-isolated-white_2829-7304.jpg' },
+                    { id: 22, name: 'Tacos', price: 79, rating: 4.4, image: 'https://img.freepik.com/free-photo/mexican-tacos-with-chicken-bell-peppers-black-beans-fresh-vegetables_2829-20049.jpg' },
+                    { id: 23, name: 'Steak', price: 20, rating: 4.1, image: 'https://img.freepik.com/free-photo/juicy-steak-medium-rare-beef-with-spices-grilled-vegetables_2829-18665.jpg' },
+                    { id: 24, name: 'Ice Cream', price: 55, rating: 4.9, image: 'https://img.freepik.com/free-photo/coold-sweet-ice-cream-with-chocolate_144627-7297.jpg' },
+                    { id: 25, name: 'Sandwich', price: 60, rating: 4.3, image: 'https://img.freepik.com/free-photo/grilled-sandwich-with-bacon-fried-egg-tomato-lettuce-served-wooden-cutting-board_1150-42571.jpg' },
+                    { id: 26, name: 'Fried Rice', price: 40, rating: 4.6, image: 'https://ichef.bbci.co.uk/food/ic/food_16x9_320/recipes/egg_fried_rice_05277_16x9.jpg' },
+                    { id: 27, name: 'Chow Mein', price: 45, rating: 4.5, image: 'https://ichef.bbci.co.uk/food/ic/food_16x9_320/recipes/beef_chow_mein_82449_16x9.jpg' },
+                    { id: 28, name: 'Burrito', price: 50, rating: 4.3, image: 'https://ichef.bbci.co.uk/food/ic/food_16x9_320/recipes/mexicansteakburrito_86980_16x9.jpg' },
+                    { id: 29, name: 'Pad Thai', price: 52, rating: 4.7, image:'https://ichef.bbci.co.uk/food/ic/food_16x9_320/recipes/pad_thai_13635_16x9.jpg' },
+                    { id: 31, name: 'Ceviche', price: 35, rating: 4.6, image: 'https://ichef.bbci.co.uk/food/ic/food_16x9_320/recipes/salmoncevichewithfen_85539_16x9.jpg' },
+                    { id: 32, name: 'Chili', price: 22, rating: 4.2, image: 'https://ichef.bbci.co.uk/food/ic/food_16x9_320/recipes/turkey_pot_pie_09104_16x9.jpg' },
+                    { id: 33, name: 'Clam Chowder', price: 18, rating: 4.1, image: 'https://ichef.bbci.co.uk/food/ic/food_16x9_320/recipes/irish_fish_chowder_with_08587_16x9.jpg' },
+                    { id: 34, name: 'Baked Ziti', price: 25, rating: 4.5, image: 'https://www.onceuponachef.com/images/2017/10/Baked-Ziti-760x926.jpg' },
+                    { id: 35, name: 'Stuffed Peppers', price: 30, rating: 4.4, image: 'https://ichef.bbci.co.uk/food/ic/food_16x9_320/recipes/veggie_stuffed_peppers_88266_16x9.jpg' },
+                    { id: 36, name: 'Lobster Roll', price: 70, rating: 4.9, image: 'https://ichef.bbci.co.uk/food/ic/food_16x9_448/recipes/lobsterthermidor_73972_16x9.jpg' },
+                   
                 ]
             }
         ];
 
         let totalPrice = 0; 
-
+        let cartCount = 0; 
         const validCredentials = {
             username: 'user',
             password: 'pass'
@@ -272,8 +274,9 @@
                 loginMessage.textContent = '';
                 document.getElementById('login').style.display = 'none';
                 restaurantList.style.display = 'block';
-                displayRestaurants();
                 logoutButton.style.display = 'inline-block';
+                document.getElementById('cart-btn').style.display = 'inline-block'; 
+                displayRestaurants(); // Show the restaurant list on login
             } else {
                 loginMessage.textContent = 'Invalid username or password.';
             }
@@ -286,8 +289,11 @@
             orderConfirmation.style.display = 'none';
             cartContainer.innerHTML = '';
             totalPrice = 0;
+            cartCount = 0; 
             updateTotalPrice();
+            document.getElementById('cart-count').textContent = cartCount; 
             logoutButton.style.display = 'none';
+            document.getElementById('cart-btn').style.display = 'none'; 
         });
 
         backToLoginButton.addEventListener('click', () => {
@@ -296,24 +302,23 @@
         });
 
         locationButton.addEventListener('click', () => {
-            alert('Location button clicked!'); // Placeholder for location functionality
+            alert('Location button clicked!'); 
         });
 
         contactButton.addEventListener('click', () => {
-            alert('Contact button clicked!'); // Placeholder for contact functionality
+            alert('Contact button clicked!'); 
         });
 
         function displayRestaurants() {
             restaurants.innerHTML = '';
             restaurantsData.forEach((restaurant, index) => {
                 const restaurantItem = document.createElement('li');
-                restaurantItem.innerHTML = `
-                    <div class="restaurant-info">
+                restaurantItem.innerHTML = 
+                    `<div class="restaurant-info">
                         <span>${restaurant.name}</span>
                         <span>${restaurant.rating} ⭐</span>
                     </div>
-                    <p>${restaurant.location}</p>
-                `;
+                    <p>${restaurant.location}</p>`;
                 restaurantItem.addEventListener('click', () => {
                     showMenu(index);
                 });
@@ -330,12 +335,11 @@
             selectedRestaurant.menu.forEach(item => {
                 const menuItem = document.createElement('li');
                 menuItem.classList.add('food-item');
-                menuItem.innerHTML = `
-                    <img src="${item.image}" alt="${item.name}">
+                menuItem.innerHTML = 
+                    `<img src="${item.image}" alt="${item.name}">
                     <h3>${item.name} <span style="font-size: 0.8em;">(${item.rating} ⭐)</span></h3>
                     <p>Price: $${item.price}</p>
-                    <button onclick="addToCart(${item.id})">Add to Cart</button>
-                `;
+                    <button onclick="addToCart(${item.id})">Add to Cart</button>`;
                 itemsList.appendChild(menuItem);
             });
             backToRestaurantButton.style.display = 'inline-block';
@@ -358,15 +362,18 @@
                            .menu.find(menuItem => menuItem.id === id);
             
             totalPrice += item.price;
+            cartCount++; 
 
             const cartDiv = document.createElement('div');
             cartDiv.classList.add('cart-item');
-            cartDiv.innerHTML = `
-                <h3>${item.name} <span style="font-size: 0.8em;">(${item.rating} ⭐)</span></h3>
-                <p>Price: $${item.price}</p>
-            `;
+            cartDiv.innerHTML = 
+                `<h3>${item.name} <span style="font-size: 0.8em;">(${item.rating} ⭐)</span></h3>
+                <p>Price: $${item.price}</p>`;
             cartContainer.appendChild(cartDiv);
             updateTotalPrice();
+            
+            document.getElementById('cart-count').textContent = cartCount;
+            document.querySelector('.cart').style.display = 'block'; 
         }
 
         function updateTotalPrice() {
@@ -376,17 +383,37 @@
         function showOrderConfirmation(restaurantName) {
             menu.style.display = 'none'; 
             orderConfirmation.style.display = 'block';
-            orderSummary.textContent = `Your order from ${restaurantName} has been placed!`;
+            
+            const currentTime = new Date(); 
+            const options = { 
+                year: 'numeric', month: 'numeric', day: 'numeric', 
+                hour: 'numeric', minute: 'numeric', second: 'numeric',
+                hour12: true
+            };
+            const formattedTime = currentTime.toLocaleString('en-US', options); 
+
+            orderSummary.textContent = `Your order from ${restaurantName} has been placed! Total amount: $${totalPrice}.`;
+            document.getElementById('order-time').textContent = `Order placed at: ${formattedTime}`;
+
+            cartContainer.innerHTML = ''; 
+            totalPrice = 0; 
+            cartCount = 0; 
+            updateTotalPrice();
+            document.getElementById('cart-count').textContent = cartCount; 
         }
 
         function checkoutFunction() {
             alert('Checkout button clicked. Thank you for your order!');
+            orderConfirmation.style.display = 'none'; 
         }
 
         function cancelCart() {
             cartContainer.innerHTML = '';
             totalPrice = 0;
+            cartCount = 0; 
             updateTotalPrice();
+            document.getElementById('cart-count').textContent = cartCount; 
+            document.querySelector('.cart').style.display = 'none'; 
         }
     </script>
 </body>
