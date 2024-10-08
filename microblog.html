@@ -147,7 +147,7 @@
         <img src="https://w7.pngwing.com/pngs/425/256/png-transparent-guitarist-rock-music-guitar-solo-guitar-silhouette-string-instrument-concert-thumbnail.png" alt="Logo" id="logo" style="width: 100px; height: auto;">
         <h2>Welcome, <span id="user-username"></span>!</h2>
         <input type="text" id="new-username" placeholder="Username">
-        <button id="change-username-btn">Username</button>
+        <button id="change-username-btn">Change Username</button>
         <textarea id="post-content" placeholder="Write your post..."></textarea>
         <input type="file" id="file-upload" accept="image/*">
         <button id="post-btn">Post</button>
@@ -174,6 +174,7 @@
     const postList = document.getElementById('post-list');
     const loginError = document.getElementById('login-error');
     let currentUser = null;
+    let followedUsers = []; // Array to track followed users
 
     const validCredentials = {
         username: 'surya',
@@ -222,7 +223,8 @@
                 likes: 0,
                 dislikes: 0,
                 comments: [],
-                file: file ? URL.createObjectURL(file) : null
+                file: file ? URL.createObjectURL(file) : null,
+                timestamp: new Date().toLocaleString() // Add timestamp
             };
             savePost(post);
             postContent.value = '';
@@ -232,7 +234,7 @@
     });
 
     function savePost(post) {
-        let posts = JSON.parse(localStorage.getItem('posts')) || [];
+        const posts = JSON.parse(localStorage.getItem('posts')) || [];
         posts.push(post);
         localStorage.setItem('posts', JSON.stringify(posts));
     }
@@ -247,6 +249,7 @@
                 ${post.file ? `<img src="${post.file}" class="post-image" alt="Uploaded file">` : ''}
                 <div class="post-content">
                     <p><strong>${post.username}</strong>: ${post.content}</p>
+                    <small style="color: #777;">Posted on: ${post.timestamp}</small>
                 </div>
                 <div class="post-buttons">
                     <button class="like-btn" data-index="${index}">👍 ${post.likes}</button>
@@ -256,6 +259,8 @@
                     <button class="comment-btn" data-index="${index}">✍️ Comment</button>
                     <button class="emoji-btn" data-index="${index}">😊</button>
                     <button class="delete-btn" data-index="${index}">🗑️ Delete</button>
+                    <button class="follow-btn" data-username="${post.username}" style="${followedUsers.includes(post.username) ? 'display: none;' : 'display: inline-block;'}">🕵️‍♂️Follow</button>
+                    <button class="unfollow-btn" data-username="${post.username}" style="${followedUsers.includes(post.username) ? 'display: inline-block;' : 'display: none;'}">🕵️‍♀️Unfollow</button>
                 </div>
                 <ul class="comments-list"></ul>
             `;
@@ -270,30 +275,9 @@
         });
     }
 
-    function sharePost(post) {
-        const shareData = {
-            title: 'Check out this post',
-            text: `${post.username}: ${post.content}`,
-            url: window.location.href
-        };
-
-        if (navigator.share) {
-            navigator.share(shareData)
-                .then(() => {
-                    console.log('Thanks for sharing!');
-                })
-                .catch((error) => {
-                    console.error('Error sharing:', error);
-                    alert('Sharing failed. You can copy this text:\n' + shareData.text);
-                });
-        } else {
-            // Fallback if share is not supported
-            alert('Sharing is not supported in this browser. Copy this text:\n' + shareData.text);
-        }
-    }
-
     postList.addEventListener('click', (e) => {
         const index = e.target.getAttribute('data-index');
+        const username = e.target.getAttribute('data-username');
         let posts = JSON.parse(localStorage.getItem('posts')) || [];
 
         if (e.target.classList.contains('like-btn')) {
@@ -309,7 +293,7 @@
             localStorage.setItem('posts', JSON.stringify(posts));
             loadPosts();
         } else if (e.target.classList.contains('share-btn')) {
-            sharePost(posts[index]); // Pass the whole post object
+            sharePost(posts[index]);
         } else if (e.target.classList.contains('comment-btn')) {
             const comment = prompt('Add a comment:');
             if (comment) {
@@ -317,23 +301,17 @@
                 localStorage.setItem('posts', JSON.stringify(posts));
                 loadPosts();
             }
-        } else if (e.target.classList.contains('reply-btn')) {
-            const reply = prompt('Add a reply:');
-            if (reply) {
-                posts[index].comments.push(reply);
-                localStorage.setItem('posts', JSON.stringify(posts));
-                loadPosts();
-            }
-        } else if (e.target.classList.contains('emoji-btn')) {
-            const emoji = prompt('Choose an emoji:');
-            if (emoji) {
-                console.log(`User reacted with: ${emoji}`);
-            }
+        } else if (e.target.classList.contains('follow-btn')) {
+            followedUsers.push(username); // Follow
+            loadPosts(); // Re-load posts to update button visibility
+        } else if (e.target.classList.contains('unfollow-btn')) {
+            followedUsers = followedUsers.filter(user => user !== username); // Unfollow
+            loadPosts(); // Re-load posts to update button visibility
         }
     });
 
-    if (localStorage.getItem('posts') === null) {
-        localStorage.setItem('posts', JSON.stringify([]));
+    function sharePost(post) {
+        alert(`Post by ${post.username} shared!`);
     }
 </script>
 </body>
