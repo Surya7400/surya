@@ -1,0 +1,149 @@
+body {
+    font-family: 'Poppins', sans-serif;
+    background: url('https://img.freepik.com/free-photo/fresh-puri-indian-bread_144627-1132.jpg') no-repeat center center fixed;
+    background-size: cover;
+    margin: 0;
+    padding: 0;
+    color: #333;
+}
+
+/* Foreground Content Section */
+#auth-form, #user-dashboard, #food-menu, #cart-page {
+    background-color: rgba(255, 255, 255, 0.9);
+    border-radius: 15px;
+    padding: 20px;
+    width: 80%;
+    max-width: 500px;
+    margin: 50px auto;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    transition: transform 0.3s ease, background-color 0.3s ease;
+}
+
+/* Scale effect for foreground sections on hover */
+#auth-form:hover, #user-dashboard:hover, #food-menu:hover, #cart-page:hover {
+    transform: scale(1.02);
+    background-color: rgba(173, 216, 230, 0.9); /* Light blue */
+}
+
+/* Buttons */
+button {
+    background-color: #FFA500; /* Orange */
+    color: white;
+    border: none;
+    border-radius: 25px;
+    padding: 10px 20px;
+    font-size: 1.2rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+button:hover {
+    background-color: #28A745; /* Green */
+    transform: scale(1.05);
+}
+
+/* Input Fields */
+input {
+    display: block;
+    margin: 15px auto;
+    padding: 15px;
+    width: 80%;
+    max-width: 400px;
+    border: 1px solid #ccc;
+    border-radius: 50px;
+    font-size: 1rem;
+}
+
+/* Hidden Class */
+.hidden {
+    display: none;
+}
+
+/* Error Message Styling */
+#auth-error {
+    color: #FF4500; /* Red-orange */
+    font-size: 1rem;
+    margin-top: 10px;
+}
+
+/* Hotel Item Styling */
+.hotel-item {
+    background-color: rgba(135, 206, 250, 0.8); /* Light sky blue */
+    padding: 20px;
+    border-radius: 15px;
+    margin: 20px 0;
+    max-width: 600px;
+    margin: auto;
+    text-align: center;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+    transition: transform 0.3s ease, background-color 0.3s ease;
+}
+
+/* Hover Effect for Hotel Items */
+.hotel-item:hover {
+    transform: scale(1.05);
+    background-color: rgba(255, 165, 0, 0.8); /* Orange on hover */
+}
+
+/* Blinking Effect when Selected */
+.blink {
+    animation: blink-animation 1s infinite;
+}
+
+@keyframes blink-animation {
+    0% { background-color: rgba(255, 255, 255, 0.8); }
+    50% { background-color: rgba(255, 0, 0, 0.8); }
+    100% { background-color: rgba(255, 255, 255, 0.8); }
+}
+
+/* Hotel Image Styling */
+.hotel-item img {
+    max-width: 100%;
+    border-radius: 10px;
+    margin-bottom: 10px;
+}
+
+/* Food Item Styling */
+.food-item {
+    background-color: rgba(144, 238, 144, 0.9); /* Light green */
+    padding: 20px;
+    border-radius: 15px;
+    margin: 20px 0;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    max-width: 400px;
+    margin: 20px auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    cursor: pointer;
+    transition: transform 0.3s ease, background-color 0.3s ease;
+}
+
+/* Hover Effect for Food Items */
+.food-item:hover {
+    transform: scale(1.05);
+    background-color: rgba(255, 215, 0, 0.9); /* Gold on hover */
+}
+
+/* Food Image Styling */
+.food-item img {
+    max-width: 100%;
+    border-radius: 10px;
+}
+
+/* Cart Item Styling */
+.cart-item {
+    margin: 10px 0;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: rgba(240, 240, 240, 0.8);
+}
+
+/* Add a subtle transition effect */
+.cart-item:hover {
+    background-color: rgba(240, 240, 240, 1);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
