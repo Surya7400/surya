@@ -1,0 +1,131 @@
+body {
+    font-family: 'Poppins', sans-serif;
+    background: url('https://www.shutterstock.com/image-photo/abstract-blurred-food-restaurant-600nw-697424737.jpg') no-repeat center center fixed;
+    background-size: cover;
+    margin: 0;
+    padding: 0;
+    color: #333;
+}
+
+/* Foreground Content Section */
+#auth-form, #user-dashboard, #food-menu, #cart-page {
+    background-color: rgba(255, 255, 255, 0.9);
+    border-radius: 15px;
+    padding: 20px;
+    width: 80%;
+    max-width: 500px;
+    margin: 50px auto;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+/* Buttons */
+button {
+    background-color: #D32323;
+    color: white;
+    border: none;
+    border-radius: 25px;
+    padding: 10px 20px;
+    font-size: 1.2rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: #A61919;
+}
+
+/* Input Fields */
+input {
+    display: block;
+    margin: 15px auto;
+    padding: 15px;
+    width: 80%;
+    max-width: 400px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 1rem;
+}
+
+/* Hidden Class */
+.hidden {
+    display: none;
+}
+
+/* Error Message Styling */
+#auth-error {
+    color: red;
+    font-size: 1rem;
+    margin-top: 10px;
+}
+
+/* Hotel Item Styling */
+.hotel-item {
+    background-color: rgba(255, 255, 255, 0.8);
+    padding: 20px;
+    border-radius: 15px;
+    margin: 20px 0;
+    max-width: 600px;
+    margin: auto;
+    text-align: center;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+    transition: transform 0.3s ease;
+}
+
+/* Hover Effect for Hotel Items */
+.hotel-item:hover {
+    transform: scale(1.05);
+}
+
+/* Blinking Effect when Selected */
+.blink {
+    animation: blink-animation 1s infinite;
+}
+
+@keyframes blink-animation {
+    0% { background-color: rgba(255, 255, 255, 0.8); }
+    50% { background-color: rgba(255, 0, 0, 0.8); }
+    100% { background-color: rgba(255, 255, 255, 0.8); }
+}
+
+/* Hotel Image Styling */
+.hotel-item img {
+    max-width: 100%;
+    border-radius: 10px;
+    margin-bottom: 10px;
+}
+
+/* Food Item Styling */
+.food-item {
+    background-color: rgba(255, 255, 255, 0.9);
+    padding: 20px;
+    border-radius: 15px;
+    margin: 20px 0;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    max-width: 400px;
+    margin: 20px auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    cursor: pointer;
+}
+
+/* Hover Effect for Food Items */
+.food-item:hover {
+    transform: scale(1.05);
+}
+
+/* Food Image Styling */
+.food-item img {
+    max-width: 100%;
+    border-radius: 10px;
+}
+
+/* Cart Item Styling */
+.cart-item {
+    margin: 10px 0;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
