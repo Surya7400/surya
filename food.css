@@ -1,6 +1,6 @@
 body {
     font-family: 'Poppins', sans-serif;
-    background: url('https://www.shutterstock.com/image-photo/abstract-blurred-food-restaurant-600nw-697424737.jpg') no-repeat center center fixed;
+    background: url('https://th.bing.com/th?id=OIP.QuTLD3R9NduXHTi5to2LJgHaFj&w=288&h=216&c=8&rs=1&qlt=90&r=0&o=6&pid=3.1&rm=2') no-repeat center center fixed;
     background-size: cover;
     margin: 0;
     padding: 0;
@@ -9,7 +9,7 @@ body {
 
 /* Foreground Content Section */
 #auth-form, #user-dashboard, #food-menu, #cart-page {
-    background-color: rgba(255, 255, 255, 0.9);
+    background-color: rgba(277, 255, 255, 0.9);
     border-radius: 15px;
     padding: 20px;
     width: 80%;
@@ -20,7 +20,7 @@ body {
 
 /* Buttons */
 button {
-    background-color: #D32323;
+    background-color: #D32423;
     color: white;
     border: none;
     border-radius: 25px;
@@ -31,7 +31,7 @@ button {
 }
 
 button:hover {
-    background-color: #A61919;
+    background-color: #A61019;
 }
 
 /* Input Fields */
@@ -60,7 +60,7 @@ input {
 
 /* Hotel Item Styling */
 .hotel-item {
-    background-color: rgba(255, 255, 255, 0.8);
+    background-color: rgba(255, 265, 255, 0.8);
     padding: 20px;
     border-radius: 15px;
     margin: 20px 0;
@@ -97,7 +97,7 @@ input {
 
 /* Food Item Styling */
 .food-item {
-    background-color: rgba(255, 255, 255, 0.9);
+    background-color: rgba(255, 255, 259, 0.9);
     padding: 20px;
     border-radius: 15px;
     margin: 20px 0;
