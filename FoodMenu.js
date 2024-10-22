@@ -158,3 +158,22 @@ window.addEventListener("click", function(event) {
         closeHelpModal();
     }
 });
+// Contact Modal Functionality
+function showContactModal() {
+    document.getElementById("contact-modal").style.display = "block";
+}
+
+function closeContactModal() {
+    document.getElementById("contact-modal").style.display = "none";
+}
+
+// Event listener for Contact button (make sure to add this in your HTML)
+document.getElementById("contact-button").addEventListener("click", showContactModal);
+
+// Close modal when clicking outside of it
+window.addEventListener("click", function(event) {
+    const modal = document.getElementById("contact-modal");
+    if (event.target === modal) {
+        closeContactModal();
+    }
+});
