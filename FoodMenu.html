@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Swiggylicious - Food Delivery</title>
+    <link rel="stylesheet" href="FoodMenu.css"> <!-- Link to CSS -->
+</head>
+<body>
+    <header>
+        <button id="logout-button" onclick="logout()">Logout</button>
+        <h1 id="page-title">Welcome to Fresh Menu</h1>
+    </header>
+
+    <main>
+        <!-- Login Section -->
+        <section id="login-section">
+            <h2>Login to your account</h2>
+            <div class="form-box">
+                <form id="login-form">
+                    <label for="username">Username:</label>
+                    <input type="text" id="username" name="username" required><br><br>
+
+                    <label for="password">Password:</label>
+                    <input type="password" id="password" name="password" required><br><br>
+
+                    <button type="submit">Login</button>
+                </form>
+            </div>
+        </section>
+
+        <!-- Menu Section -->
+        <section id="menu-section" style="display: none;">
+            <h2>Our Menu</h2>
+            <!-- Search Container -->
+               <div id="search-container">
+                   <input type="text" id="search-input" placeholder="Search Menu..." />
+                   <button id="search-button" onclick="searchMenu()">Search</button>
+                   </div>
+
+    <!-- KFC Menu -->
+    <div class="restaurant">
+        <!-- Existing KFC menu code -->
+    </div>
+    <!-- Other restaurant sections -->
+            
+
+            <!-- KFC Menu -->
+            <div class="restaurant">
+                <h3>KFC <span class="rating">3.5/5 ⭐</span></h3>
+                <img src="https://logos-world.net/wp-content/uploads/2020/04/KFC-Logo-700x394.png" alt="KFC Logo" class="logo">
+                <div class="menu-container">
+                    <div class="menu-item">
+                        <img src="https://ichef.bbci.co.uk/food/ic/food_16x9_320/recipes/egg_fried_rice_05277_16x9.jpg" alt="KFC Fried Chicken" class="food-image">
+                        <h4>Fried Chicken</h4>
+                        <p>₹120</p>
+                        <p class="description">Crispy fried chicken with secret spices.</p>
+                        <button onclick="addToOrder('Fried Chicken', 120, 'KFC')">Order Now</button>
+                        <button onclick="addToFavorites('Fried Chicken')">❤️</button>
+                    </div>
+                    <div class="menu-item">
+                        <img src="https://img.freepik.com/free-photo/delicious-pizza-studio_23-2151846554.jpg" alt="KFC Mashed Potatoes" class="food-image">
+                        <h4>Mashed Potatoes</h4>
+                        <p>₹50</p>
+                        <p class="description">Creamy mashed potatoes with gravy.</p>
+                        <button onclick="addToOrder('Mashed Potatoes', 50, 'KFC')">Order Now</button>
+                        <button onclick="addToFavorites('Mashed Potatoes')">❤️</button>
+                    </div>
+                    <div class="menu-item">
+                        <img src="https://img.freepik.com/free-photo/maki-sushi-isolated-white_2829-7304.jpg" alt="KFC Coleslaw" class="food-image">
+                        <h4>Coleslaw</h4>
+                        <p>₹90</p>
+                        <p class="description">Freshly made coleslaw with a tangy dressing.</p>
+                        <button onclick="addToOrder('Coleslaw', 90, 'KFC')">Order Now</button>
+                        <button onclick="addToFavorites('Coleslaw')">❤️</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- McDonald's Menu -->
+            <div class="restaurant">
+                <h3>McDonald's <span class="rating">4.2/5 ⭐</span></h3>
+                <img src="https://1000logos.net/wp-content/uploads/2017/03/McDonalds-logo-500x281.png" alt="McDonald's Logo" class="logo">
+                <div class="menu-container">
+                    <div class="menu-item">
+                        <img src="https://img.freepik.com/free-photo/penne-pasta-tomato-sauce-with-chicken-tomatoes-wooden-table_2829-19744.jpg" alt="Big Mac" class="food-image">
+                        <h4>Big Mac</h4>
+                        <p>₹170</p>
+                        <p class="description">A classic burger with two patties and special sauce.</p>
+                        <button onclick="addToOrder('Big Mac', 170, 'McDonald\'s')">Order Now</button>
+                        <button onclick="addToFavorites('Big Mac')">❤️</button>
+                    </div>
+                    <div class="menu-item">
+                        <img src="https://img.freepik.com/free-photo/top-view-tasty-salad-with-vegetables_23-2148515491.jpg" alt="French Fries" class="food-image">
+                        <h4>French Fries</h4>
+                        <p>₹75</p>
+                        <p class="description">Crispy fries, perfect for dipping.</p>
+                        <button onclick="addToOrder('French Fries', 75, 'McDonald\'s')">Order Now</button>
+                        <button onclick="addToFavorites('French Fries')">❤️</button>
+                    </div>
+                    <div class="menu-item">
+                        <img src="https://img.freepik.com/free-photo/crispy-french-fries-with-ketchup-mayonnaise_1150-26588.jpg" alt="Chicken McNuggets" class="food-image">
+                        <h4>Chicken McNuggets</h4>
+                        <p>₹220</p>
+                        <p class="description">Tender chicken nuggets with a crispy coating.</p>
+                        <button onclick="addToOrder('Chicken McNuggets', 220, 'McDonald\'s')">Order Now</button>
+                        <button onclick="addToFavorites('Chicken McNuggets')">❤️</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Popeyes Menu -->
+            <div class="restaurant">
+                <h3>ice cream <span class="rating">4.0/5 ⭐</span></h3>
+                <img src="https://cdn.logojoy.com/wp-content/uploads/20231030111351/IceCreamLogos-3.png" alt="Popeyes Logo" class="logo">
+                <div class="menu-container">
+                    <div class="menu-item">
+                        <img src="https://ichef.bbci.co.uk/food/ic/food_16x9_1600/recipes/classic_garlic_bread_84954_16x9.jpg" alt="Chicken Sandwich" class="food-image">
+                        <h4>Chicken Sandwich</h4>
+                        <p>₹80</p>
+                        <p class="description">Spicy chicken fillet with mayo and pickles.</p>
+                        <button onclick="addToOrder('Chicken Sandwich', 80, 'Popeyes')">Order Now</button>
+                        <button onclick="addToFavorites('Chicken Sandwich')">❤️</button>
+                    </div>
+                    <div class="menu-item">
+                        <img src="https://ichef.bbci.co.uk/food/ic/food_16x9_320/recipes/tiramisu_cake_13686_16x9.jpg" alt="Spicy Chicken" class="food-image">
+                        <h4>ice cake</h4>
+                        <p>₹90</p>
+                        <p class="description">Crispy spicy chicken pieces, perfect for chicken lovers.</p>
+                        <button onclick="addToOrder('Spicy Chicken', 90, 'Popeyes')">Order Now</button>
+                        <button onclick="addToFavorites('Spicy Chicken')">❤️</button>
+                    </div>
+                    <div class="menu-item">
+                        <img src="https://ichef.bbci.co.uk/food/ic/food_16x9_320/recipes/bubble_tea_74016_16x9.jpg" alt="Cajun Fries" class="food-image">
+                        <h4>cream juice</h4>
+                        <p>₹150</p>
+                        <p class="description">Fries with a spicy Cajun twist.</p>
+                        <button onclick="addToOrder('Cajun Fries', 150, 'Popeyes')">Order Now</button>
+                        <button onclick="addToFavorites('Cajun Fries')">❤️</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Pizza Hut Menu -->
+            <div class="restaurant">
+                <h3>verity food <span class="rating">4.5/5 ⭐</span></h3>
+                <img src="https://th.bing.com/th?id=OIP.xH68QDK2WJdvz9wDUVSCOAHaEo&w=316&h=197&c=8&rs=1&qlt=90&r=0&o=6&pid=3.1&rm=2" alt="Pizza Hut Logo" class="logo">
+                <div class="menu-container">
+                    <div class="menu-item">
+                        <img src="https://ichef.bbci.co.uk/food/ic/food_16x9_320/recipes/nachos_92445_16x9.jpg" alt="Pepperoni Pizza" class="food-image">
+                        <h4>Pepperoni Pizza</h4>
+                        <p>₹240</p>
+                        <p class="description">Classic pepperoni pizza with mozzarella cheese.</p>
+                        <button onclick="addToOrder('Pepperoni Pizza', 240, 'Pizza Hut')">Order Now</button>
+                        <button onclick="addToFavorites('Pepperoni Pizza')">❤️</button>
+                    </div>
+                    <div class="menu-item">
+                        <img src="https://ichef.bbci.co.uk/food/ic/food_16x9_320/recipes/chorizoandbeanquesad_76375_16x9.jpg" alt="Cheese Pizza" class="food-image">
+                        <h4>Cheese Pizza</h4>
+                        <p>₹200</p>
+                        <p class="description">A cheesy delight for cheese lovers.</p>
+                        <button onclick="addToOrder('Cheese Pizza', 200, 'Pizza Hut')">Order Now</button>
+                        <button onclick="addToFavorites('Cheese Pizza')">❤️</button>
+                    </div>
+                    <div class="menu-item">
+                        <img src="https://ichef.bbci.co.uk/food/ic/food_16x9_320/recipes/creamytomatosoup_67508_16x9.jpg" alt="Veggie Pizza" class="food-image">
+                        <h4>Veggie Pizza</h4>
+                        <p>₹140</p>
+                        <p class="description">Loaded with fresh vegetables.</p>
+                        <button onclick="addToOrder('Veggie Pizza', 140, 'Pizza Hut')">Order Now</button>
+                        <button onclick="addToFavorites('Veggie Pizza')">❤️</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Coupon Section -->
+            <section id="coupon-section" style="display: none;">
+                <h3>Apply Coupon</h3>
+                <input type="text" id="coupon-code" placeholder="Enter coupon code">
+                <button onclick="applyCoupon()">Apply</button>
+                <p id="coupon-message"></p>
+            </section>
+
+        </section>
+
+        <!-- Order Summary Section -->
+        <section id="order-summary" style="display: none;">
+            <h2>Your Order</h2>
+            <div class="order-box">
+                <ul id="order-list"></ul>
+                <p id="total-price">Total: ₹0</p>
+                <button id="checkout-btn" onclick="showCheckout()">Checkout</button>
+            </div>
+        </section>
+
+        <!-- Checkout Form Section -->
+        <section id="checkout-section" style="display: none;">
+            <h2>Checkout</h2>
+            <div class="form-box">
+                <form id="order-form">
+                    <label for="name">Name:</label>
+                    <input type="text" id="name" name="name" required><br><br>
+
+                    <label for="address">Address:</label>
+                    <input type="text" id="address" name="address" required><br><br>
+
+                    <label for="payment">Payment Method:</label>
+                    <select id="payment" name="payment" required>
+                        <option value="Credit Card">Credit Card</option>
+                        <option value="PayPal">PayPal</option>
+                        <option value="Cash on Delivery">Cash on Delivery</option>
+                    </select><br><br>
+
+                    <button type="submit">Submit Order</button>
+                </form>
+            </div>
+        </section>
+
+        <!-- Button to View Previous Orders -->
+        <button id="previous-orders-btn" style="display: none;" onclick="showPreviousOrders()">Previous Orders</button>
+
+        <!-- Section to display previous orders -->
+        <section id="previous-orders" style="display: none;">
+            <h2>Previous Orders</h2>
+            <ul id="previous-order-list"></ul>
+        </section>
+         <!-- Help Button -->
+        <button id="help-button">Help</button>
+
+        <!-- Help Modal -->
+        <div id="help-modal" class="modal" style="display: none;">
+            <div class="modal-content">
+                <span class="close" id="close-modal">&times;</span>
+                <h2>Help & Support</h2>
+                <h3>Partner Onboarding</h3>
+                <p>I want to partner my restaurant with Fresh Menu.</p>
+                <p>Partner with us.</p>
+                <p>SEND AN EMAIL</p>
+                <p>We will revert within 24-48 hrs.</p>
+
+                <h3>FAQs</h3>
+                <p>What are the mandatory documents needed to list my restaurant on FreshMenu?</p>
+                <p>I want to opt-out from Google reserve.</p>
+                <p>After I submit all documents, how long will it take for my restaurant to go live on FreshMenu?</p>
+                <p>What is this one-time onboarding fee? Do I have to pay for it while registering?</p>
+                <p>Who should I contact if I need help & support in getting onboarded?</p>
+                <p>How much commission will I be charged by FreshMenu?</p>
+                <p>I don’t have an FSSAI licence for my restaurant. Can it still be onboarded?</p>
+                <p>FSSAI licence is a mandatory requirement according to the government’s policies. However, if you are yet to receive the licence at the time of onboarding, you can proceed with the acknowledgement number which you will have received from FSSAI for your registration.</p>
+            </div>
+        </div>
+   
+    </main>
+
+    <footer>
+        <p>&copy; 2024 Fresh Menu. All rights reserved.</p>
+    </footer>
+
+    <script src="FoodMenu.js"></script> <!-- Link to JavaScript -->
+</body>
+</html>
