@@ -4,12 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Swiggylicious - Food Delivery</title>
-    <link rel="stylesheet" href="FoodMenu.css"> <!-- Link to CSS -->
+    <link rel="stylesheet" href="styles.css"> <!-- Link to CSS -->
 </head>
 <body>
     <header>
         <button id="logout-button" onclick="logout()">Logout</button>
         <h1 id="page-title">Welcome to Fresh Menu</h1>
+        <button id="contact-button" onclick="showContactModal()">Contact Us</button>
+
     </header>
 
     <main>
@@ -251,11 +253,27 @@
         </div>
    
     </main>
+    <div id="contact-modal" class="modal" style="display: none;">
+    <div class="modal-content">
+        <span class="close" onclick="closeContactModal()">&times;</span>
+        <h2>Contact Us</h2>
+        <h3>Investor Queries and Grievances</h3>
+        <p>Abhishek Agarwal<br>Vice President, Investor Relations<br>Email: <a href="mailto:ir@FreshMenu.in">ir@FreshMenu.in</a></p>
+        <p>Sridhar M.<br>Company Secretary<br>Email: <a href="mailto:secretarial@FreshMenu.in">secretarial@FreshMenu.in</a></p>
+        <h3>Registrar and Share Transfer Agent</h3>
+        <p>Link Intime India Private Limited<br>543/A, 7th Main, 3rd Cross S L Bhyrappa Road, Hanumanthnagar<br>Bengaluru, Karnataka 560019<br>Website: <a href="https://www.linkintime.co.in/">linkintime.co.in</a></p>
+        <h3>Public Relations and Media</h3>
+        <p>Dinker Vashisht<br>Vice President, Corporate Affairs<br>Sanjana Shetty<br>Director, Corporate Communications<br>Email: <a href="mailto:pr@FreshMenu.in">pr@FreshMenu.in</a></p>
+        <h3>Customer Support</h3>
+        <p>Email: <a href="mailto:support@sFreshMenu.in">support@FreshMenu.in</a></p>
+    </div>
+</div>
+
 
     <footer>
         <p>&copy; 2024 Fresh Menu. All rights reserved.</p>
     </footer>
 
-    <script src="FoodMenu.js"></script> <!-- Link to JavaScript -->
+    <script src="script.js"></script> <!-- Link to JavaScript -->
 </body>
 </html>
