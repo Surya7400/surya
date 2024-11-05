@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Classifieds App</title>
+   <style>
+    /* General Styles */
+    body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        margin: 0;
+        padding: 0;
+        background: linear-gradient(to right, #ffd1dc, #80e5b8), url('your-image-url.jpg') no-repeat center center; /* Light pink to mint green gradient */
+        background-size: cover;
+        min-height: 100vh;
+        color: #333;
+        overflow-x: hidden; /* Prevent horizontal scroll on animated elements */
+    }
+
+    header {
+        background-color: rgba(255, 87, 34, 0.8); /* Orange */
+        color: white;
+        padding: 20px;
+        text-align: center;
+        font-size: 28px;
+        letter-spacing: 1.5px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        animation: slideIn 1s ease-out;
+    }
+
+    nav {
+        margin-top: 20px;
+        text-align: center;
+    }
+
+    /* Button Styles */
+    button {
+        background-color: #e91e63; /* Pink */
+        color: white;
+        border: none;
+        padding: 12px 20px;
+        margin: 10px;
+        cursor: pointer;
+        border-radius: 25px;
+        font-size: 16px;
+        box-shadow: 0 4px 6px rgba(116, 2, 2, 0.336);
+        transition: transform 0.3s ease, background-color 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    button:hover {
+        background-color: #388e3c; /* Green */
+        transform: translateY(-5px); /* Lift button slightly on hover */
+        box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2);
+    }
+
+    #cart-info {
+        display: inline-block;
+        margin-left: 20px;
+        font-size: 18px;
+        color: white;
+    }
+
+    /* Main Section Styles */
+    main {
+        padding: 30px;
+        background-color: rgba(33, 150, 243, 0.8); /* Blue with 80% opacity */
+        border-radius: 10px;
+        max-width: 1200px;
+        margin: 20px auto;
+        box-shadow: 0 6px 10px rgba(0, 0, 0, 0.1);
+        animation: fadeIn 1.2s ease-out; /* Fade-in effect for main section */
+    }
+
+    h2 {
+        color: #ff5722; /* Orange */
+        font-size: 24px;
+        margin-bottom: 20px;
+        opacity: 0;
+        animation: fadeInText 1s ease-out forwards;
+    }
+
+    /* Form Styles */
+    form {
+        background-color: rgba(255, 255, 255, 0.95);
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        margin-bottom: 20px;
+        opacity: 0;
+        animation: fadeInForm 1s ease-out 0.3s forwards; /* Delay animation */
+    }
+
+    input[type="text"],
+    input[type="number"],
+    textarea,
+    select {
+        width: 100%;
+        padding: 12px;
+        margin: 10px 0;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1);
+    }
+
+    input[type="file"] {
+        margin: 10px 0;
+    }
+
+    /* Item List Styles */
+    #item-list {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        justify-content: center;
+        animation: slideInUp 1s ease-out; /* Items slide up */
+    }
+
+    .item {
+        background-color: white;
+        border: 1px solid #ddd;
+        border-radius: 10px;
+        padding: 20px;
+        width: calc(33.333% - 20px);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        opacity: 0;
+        animation: fadeInItem 1s ease-out forwards; /* Fade-in animation */
+    }
+
+    .item:hover {
+        transform: scale(1.05);
+        box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2);
+    }
+
+    .item img {
+        max-width: 100%;
+        border-radius: 10px;
+        margin-bottom: 15px;
+    }
+
+    .item h3 {
+        font-size: 22px;
+        color: #e91e63; /* Pink */
+    }
+
+    .item p {
+        color: #555;
+        font-size: 16px;
+    }
+
+    /* Checkout Styles */
+    #checkout-popup {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        justify-content: center;
+        align-items: center;
+        animation: fadeInPopup 0.6s ease-out forwards; /* Fade-in popup */
+    }
+
+    #checkout-content {
+        background-color: white;
+        padding: 20px;
+        border-radius: 10px;
+        width: 400px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        transform: translateY(100px);
+        animation: slideUp 0.6s ease-out forwards; /* Slide-up effect for checkout */
+    }
+
+    .hidden {
+        display: none;
+    }
+
+    /* Keyframe Animations */
+    @keyframes fadeIn {
+        0% {
+            opacity: 0;
+        }
+        100% {
+            opacity: 1;
+        }
+    }
+
+    @keyframes fadeInText {
+        0% {
+            opacity: 0;
+            transform: translateY(10px);
+        }
+        100% {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    @keyframes fadeInForm {
+        0% {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        100% {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    @keyframes fadeInItem {
+        0% {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        100% {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    @keyframes slideInUp {
+        0% {
+            transform: translateY(30px);
+            opacity: 0;
+        }
+        100% {
+            transform: translateY(0);
+            opacity: 1;
+        }
+    }
+
+    @keyframes slideIn {
+        0% {
+            transform: translateX(-100%);
+        }
+        100% {
+            transform: translateX(0);
+        }
+    }
+
+    @keyframes fadeInPopup {
+        0% {
+            opacity: 0;
+        }
+        100% {
+            opacity: 1;
+        }
+    }
+
+    @keyframes slideUp {
+        0% {
+            transform: translateY(100px);
+        }
+        100% {
+            transform: translateY(0);
+        }
+    }
+</style>
+
+
+</head>
+<body>
+    <header>
+        <h1>Classified App</h1>
+        <nav>
+            <button id="view-buy">View Items for Sale</button>
+            <button id="view-sell">Sell an Item</button>
+            <div id="cart-info">Cart: <span id="cart-count">0</span> items</div>
+            <button id="checkout-button">Checkout</button>
+        </nav>
+    </header>
+    
+    <main>
+        <div id="sell-section" class="hidden">
+            <h2>Sell an Item</h2>
+            <form id="sell-form">
+                <input type="text" id="item-name" placeholder="Item Name" required>
+                <input type="text" id="item-category" placeholder="Category" required>
+                <textarea id="item-description" placeholder="Description" required></textarea>
+                <input type="file" id="item-image" accept="image/*" required>
+                <input type="number" id="item-price" placeholder="Price" required>
+                <input type="text" id="seller-contact" placeholder="Your Contact Info" required>
+                <button type="submit">List Item</button>
+            </form>
+        </div>
+        
+        <div id="buy-section" class="hidden">
+            <h2>Items for Sale</h2>
+            <div id="item-list"></div>
+        </div>
+        
+        <div id="item-detail" class="hidden">
+            <button id="back-to-items">Back to Items</button>
+            <div id="detail-content"></div>
+        </div>
+
+        <div id="checkout-popup" class="hidden">
+            <div id="checkout-content">
+                <h2>Checkout</h2>
+                <div id="order-summary"></div>
+                <p id="total-amount"></p>
+                <label for="delivery-address">Delivery Address:</label>
+                <input type="text" id="delivery-address" placeholder="Enter your address" required>
+                <div>
+                    <label for="payment-method">Payment Method:</label>
+                    <select id="payment-method">
+                        <option value="cash">Cash</option>
+                        <option value="card">Card</option>
+                    </select>
+                </div>
+                <div id="card-details" class="hidden">
+                    <label for="card-number">Card Number:</label>
+                    <input type="text" id="card-number" placeholder="Enter your card number">
+                    <label for="expiry-date">Expiry Date:</label>
+                    <input type="text" id="expiry-date" placeholder="MM/YY">
+                    <label for="cvv">CVV:</label>
+                    <input type="text" id="cvv" placeholder="CVV">
+                </div>
+                <button id="confirm-order-button">Confirm Order</button>
+                <button onclick="document.getElementById('checkout-popup').style.display='none'">Cancel</button>
+            </div>
+        </div>
+    </main>
+
+<script>
+    const items = {
+        cars: [
+            {
+                title: "Honda Accord", 
+                price: 30000, 
+                description: "Reliable sedan in great condition.",
+                owner: "Sam San",
+                location: "New York, NY",
+                images: ["https://imgd.aeplcdn.com/664x374/cw/ec/21613/Honda-Accord-Right-Front-Three-Quarter-82683.jpg?v=201711021421&q=60"]
+            },
+            {
+                title: "Royals royals", 
+                price: 33000, 
+                description: "Spacious and comfortable car.",
+                owner: "Jane Doe",
+                location: "Los Angeles, CA",
+                images: ["https://th.bing.com/th/id/OIP.OpNZguBbHhNAdW-qlFWMYAHaEK?rs=1&pid=ImgDetMain"]
+            },
+            {
+                title: "Ford Mustang", 
+                price: 25000, 
+                description: "Sporty and powerful 2018 model.",
+                owner: "Tom Smith",
+                location: "Chicago, IL",
+                images: ["https://imgd.aeplcdn.com/664x374/cw/ec/23766/Ford-Mustang-Exterior-126883.jpg?wm=0&q=80"]
+            }
+        ],
+        bikes: [
+            {
+                title: "Yamaha M-15",
+                price: 3000,
+                description: "Sport bike, well-maintained.",
+                owner: "Bob Smith",
+                location: "Chicago, IL",
+                images: ["https://imgd.aeplcdn.com/642x361/n/cw/ec/158289/yamaha-mt-15-right-side-view3.jpeg?isig=0&q=80"]
+            },
+            {
+                title: "Ducati Monster",
+                price: 8000,
+                description: "Powerful and stylish motorcycle.",
+                owner: "Alice Johnson",
+                location: "Miami, FL",
+                images: ["https://bd.gaadicdn.com/processedimages/ducati/monster/494X300/monster65f5378c060f5.jpg?imwidth=400&impolicy=resize"]
+            },
+            {
+                title: "Kawasaki Ninja",
+                price: 6000,
+                description: "Sport bike with excellent performance.",
+                owner: "David Brown",
+                location: "Seattle, WA",
+                images: ["https://imgd.aeplcdn.com/227x128/n/cw/ec/130355/ninja-zx-10r-right-side-view-2.png?isig=0&q=80"]
+            }
+        ],
+        mobiles: [
+            {
+                title: "iPhone 12",
+                price: 800,
+                description: "Used 64GB, excellent condition.",
+                owner: "Alice",
+                location: "San Francisco, CA",
+                images: ["https://apollo.olx.in/v1/files/zpt7crol3dut-IN/image;s=500x0;q=40"]
+            },
+            {
+                title: "Samsung Galaxy z flip 5",
+                price: 750,
+                description: "Latest model with great features.",
+                owner: "Mark Wilson",
+                location: "Austin, TX",
+                images: ["https://th.bing.com/th?id=OIP.QWaicX5IcyxqYLekbcUarAHaEx&w=311&h=200&c=8&rs=1&qlt=90&r=0&o=6&pid=3.1&rm=2"]
+            },
+            {
+                title: "Google Pixel 9 pro",
+                price: 900,
+                description: "Great camera and stock Android experience.",
+                owner: "Sarah Davis",
+                location: "Boston, MA",
+                images: ["https://th.bing.com/th/id/OIP.zeBexO8vAFrG7QGhhHC9hAHaEK?w=298&h=180&c=7&r=0&o=5&pid=1.7"]
+            }
+        ],
+        sports: [
+            {
+                title: "cricket bat",
+                price: 100,
+                description: "High-quality tennis racket.",
+                owner: "Richard Lee",
+                location: "Philadelphia, PA",
+                images: ["https://th.bing.com/th?id=OIP.mWRy9GgrfDFP7J4lr_9ysQHaHa&w=250&h=250&c=8&rs=1&qlt=90&r=0&o=6&pid=3.1&rm=2"]
+            },
+            {
+                title: "Bicycle",
+                price: 300,
+                description: "Mountain bike in good condition.",
+                owner: "Emma Green",
+                location: "San Diego, CA",
+                images: ["https://apollo.olx.in/v1/files/3gtmyv229h222-IN/image;s=500x0;q=40"]
+            },
+            {
+                title: "Foot ball",
+                price: 25,
+                description: "Non-slip yoga mat for practice.",
+                owner: "Laura White",
+                location: "Denver, CO",
+                images: ["https://th.bing.com/th?id=OIP.mg_mvJnnNNxOrWvNWNQefQHaFA&w=303&h=205&c=8&rs=1&qlt=90&r=0&o=6&pid=3.1&rm=2"]
+            }
+        ]
+    };
+
+    let cart = [];
+
+    document.getElementById("view-buy").onclick = () => {
+        document.getElementById("sell-section").classList.add("hidden");
+        document.getElementById("buy-section").classList.remove("hidden");
+        displayItems();
+    };
+
+    document.getElementById("view-sell").onclick = () => {
+        document.getElementById("buy-section").classList.add("hidden");
+        document.getElementById("sell-section").classList.remove("hidden");
+    };
+
+    function displayItems() {
+        const itemList = document.getElementById("item-list");
+        itemList.innerHTML = "";
+        Object.values(items).flat().forEach((item, index) => {
+            const itemDiv = document.createElement("div");
+            itemDiv.classList.add("item");
+            itemDiv.innerHTML = `
+                <img src="${item.images[0]}" alt="${item.title}">
+                <h3>${item.title}</h3>
+                <p>Location: ${item.location}</p>
+                <p>${item.description}</p>
+                <p>Price: ₹${item.price}</p>
+                <p>Contact: ${item.owner}</p>
+                <button onclick="addToCart(${index})">Add to Cart</button>
+            `;
+            itemList.appendChild(itemDiv);
+        });
+    }
+
+    function addToCart(index) {
+        const item = Object.values(items).flat()[index];
+        cart.push(item);
+        document.getElementById("cart-count").innerText = cart.length;
+        alert(`${item.title} has been added to your cart.`);
+    }
+
+    document.getElementById("checkout-button").onclick = () => {
+        document.getElementById("checkout-popup").style.display = "flex";
+        displayOrderSummary();
+    };
+
+    function displayOrderSummary() {
+        const orderSummary = document.getElementById("order-summary");
+        orderSummary.innerHTML = '';
+        let totalAmount = 0;
+
+        cart.forEach(item => {
+            const itemSummary = document.createElement('div');
+            itemSummary.innerText = `${item.title} - ₹${item.price}`;
+            orderSummary.appendChild(itemSummary);
+            totalAmount += item.price;
+        });
+
+        document.getElementById("total-amount").innerText = `Total: ₹${totalAmount}`;
+    }
+
+    document.getElementById("payment-method").onchange = function() {
+        const cardDetails = document.getElementById("card-details");
+        cardDetails.classList.toggle("hidden", this.value !== "card");
+    };
+
+    document.getElementById("confirm-order-button").onclick = () => {
+        const deliveryAddress = document.getElementById("delivery-address").value;
+        if (!deliveryAddress) {
+            alert("Please enter a delivery address.");
+            return;
+        }
+        alert("Order confirmed! It will be delivered to " + deliveryAddress);
+        cart = [];
+        document.getElementById("cart-count").innerText = cart.length;
+        document.getElementById("checkout-popup").style.display = "none";
+    };
+</script>
